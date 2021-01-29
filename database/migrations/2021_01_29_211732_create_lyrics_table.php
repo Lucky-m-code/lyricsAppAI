@@ -16,6 +16,11 @@ class CreateLyricsTable extends Migration
         Schema::create('lyrics', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
+            $table->string('music_name');
+            $table->string('artist_name');
+            $table->text('lyrics');
+            $table->text('url');
+            $table->boolean('status');
         });
     }
 
