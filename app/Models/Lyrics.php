@@ -9,6 +9,14 @@ class Lyrics extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'music_name',
+        'artist_name',
+        'lyrics',
+        'url',
+        'status'
+    ];
+
     public function user(){
         return $this->belongsTo(User::class);
     }
