@@ -3,7 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use PhpParser\Node\Scalar\String_;
+
 
 class RegisterResource extends JsonResource
 {

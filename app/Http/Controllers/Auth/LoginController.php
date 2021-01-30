@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\LoginResource;
+
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -16,14 +16,28 @@ class LoginController extends Controller
             'password' => 'required',
         ]);
 
-        $credentials = $request->only('email', 'password');
+
 
         //sign the user
-        if (!auth()->attempt($request->only('email', 'password')) && $request->remember) {
+        if (!auth()->attempt($request->only('email', 'password'))) {
             return response()->json(['msg' => 'Invalid credentials'], 401);
         }
 
-        return new LoginResource(auth()->user());
+
+
+        $user = $request->user();
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        $response = [
+            'user' => $user,
+            'token' => $token
+        ];
+
+        return response()->json(['status_code'=>400,'response'=>$response]);
+
+
+
+
     }
 
 }

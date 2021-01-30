@@ -4,7 +4,7 @@ namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class LoginResource extends JsonResource
+class LyricsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,13 +14,16 @@ class LoginResource extends JsonResource
      */
     public function toArray($request)
     {
+
+
         return [
             'id' => $this->id,
-            'name' => $this->name,
-            'email' => $this->email,
-//            'created_at' =>$this->created_at,
-//            'updated_at' => $this->updated_at,
-            'api_token' => $this->api_token
+            'user' => $this->user,
+            'music_name' => $this->music_name,
+            'artist_name' => $this->artist_name,
+            'lyrics' =>$this->lyrics,
+            'url' => $this->url,
+            'status' => $this->status
 
         ];
     }
