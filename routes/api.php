@@ -26,8 +26,12 @@ Route::post('register', [RegisterController::class, 'register']);
 Route::post('login', [LoginController::class, 'login']);
 
 
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::apiResource('lyrics',LyricsController::class);
 
 
-Route::apiResource('lyrics',LyricsController::class);
+});
+
 
 

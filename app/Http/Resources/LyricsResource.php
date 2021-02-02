@@ -18,7 +18,7 @@ class LyricsResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'user' => $this->user,
+            'user_id' => $request->user()->id,
             'music_name' => $this->music_name,
             'artist_name' => $this->artist_name,
             'lyrics' =>$this->lyrics,

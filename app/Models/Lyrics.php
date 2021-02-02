@@ -14,7 +14,8 @@ class Lyrics extends Model
         'artist_name',
         'lyrics',
         'url',
-        'status'
+        'status',
+        'user_id'
     ];
 
     public function user(){
