@@ -1,7 +1,10 @@
 <?php
 
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LyricsController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Auth\RegisterController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +17,21 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+
+
+
+
+
+Route::post('register', [RegisterController::class, 'register']);
+Route::post('login', [LoginController::class, 'login']);
+
+
+Route::middleware('auth:sanctum')->group(function () {
+
+    Route::apiResource('lyrics',LyricsController::class);
+
+
 });
+
+
+
