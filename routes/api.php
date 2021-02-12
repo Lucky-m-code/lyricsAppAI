@@ -31,6 +31,7 @@ Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('lyrics',LyricsController::class);
     Route::apiResource('lyricsRequest', LyricsRequestController::class);
+    Route::apiResource('favouriteLyrics', LyricsRequestController::class);
 
 
 });

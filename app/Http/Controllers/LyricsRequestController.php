@@ -11,7 +11,7 @@ class LyricsRequestController extends Controller
 {
     public function index()
     {
-        return LyricsRequestResource::collection(Lyrics::all());
+        return LyricsRequestResource::collection(LyricsRequest::all());
     }
 
 
