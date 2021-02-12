@@ -12,7 +12,8 @@ class LyricsRequest extends Model
     protected $fillable = [
         'music_name',
         'artist_name',
-        'url'
+        'url',
+        'user_id'
     ];
 
     public function user(){

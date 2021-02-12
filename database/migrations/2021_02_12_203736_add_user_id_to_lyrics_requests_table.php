@@ -14,7 +14,8 @@ class AddUserIdToLyricsRequestsTable extends Migration
     public function up()
     {
         Schema::table('lyrics_requests', function (Blueprint $table) {
-            //
+            //the index is to make it search a lot faster
+            $table->integer('user_id')->unsigned()->nullable()->index();
         });
     }
 
@@ -26,7 +27,7 @@ class AddUserIdToLyricsRequestsTable extends Migration
     public function down()
     {
         Schema::table('lyrics_requests', function (Blueprint $table) {
-            //
+            $table->dropColumn('user_id');
         });
     }
 }
