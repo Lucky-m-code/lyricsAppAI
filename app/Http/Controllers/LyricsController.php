@@ -48,9 +48,6 @@ class LyricsController extends Controller
 
 //        return new LyricsResource($lyrics);
 
-
-
-
     }
 
     //Display the specified resource.
