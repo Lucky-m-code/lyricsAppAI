@@ -2,18 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Resources\LoginResource;
-use App\Http\Resources\LyricsResource;
+use App\Http\Resources\LyricsRequestResource;
 use App\Models\Lyrics;
+use App\Models\LyricsRequest;
 use Illuminate\Http\Request;
 
-class LyricsController extends Controller
+class LyricsRequestController extends Controller
 {
-
-
     public function index()
     {
-        return LyricsResource::collection(Lyrics::all());
+        return LyricsRequestResource::collection(Lyrics::all());
     }
 
 
@@ -22,24 +20,22 @@ class LyricsController extends Controller
         $this->validate($request,[
             'music_name'=>'required',
             'artist_name'=>'required',
-            'lyrics'=>'required',
+            'url'=>'required',
         ]);
 
         $user = $request->user()->id;
 
-        $lyrics = Lyrics::create([
+        $lyrics = LyricsRequest::create([
             'music_name' => $request['music_name'],
             'artist_name' => $request['artist_name'],
-            'lyrics' => $request['lyrics'],
             'url' => $request['url'],
-            'status' => true,
             'user_id' =>$user,
 
         ]);
 
 
         $response = [
-            'lyrics' => $lyrics,
+            'requestedLyrics' => $lyrics,
             //'user name' => $request->user()->name
 
         ];
@@ -51,36 +47,37 @@ class LyricsController extends Controller
     }
 
     //Display the specified resource.
-    public function show(Lyrics $lyrics)
+    public function show(LyricsRequest $lyricsRequest)
     {
-        return new LyricsResource($lyrics);
+        return new LyricsRequestResource($lyricsRequest);
     }
 
 
 
-    //Update the specified resource in storage.
-    public function update(Request $request, Lyrics $lyric)
+//    Update the specified resource in storage.
+//    updating is not allowed for LyricsRequest
+    public function update(Request $request, LyricsRequest $lyricsRequest)
     {
         $this->validate($request,[
             'music_name'=>'required',
             'artist_name'=>'required',
-            'lyrics'=>'required',
+            'url'=>'required',
         ]);
 
 
         $response = [
             'user' => $request->user()->name,
-            'lyrics_user_id' => $lyric
+            'lyrics_user_id' => $lyricsRequest
 
         ];
 
-        if ($request->user()->id !== $lyric->user_id) {
+        if ($request->user()->id !== $lyricsRequest->user_id) {
 
             return response()->json(['error' => 'You can only edit your own lyrics.','response' => $response], 403);
 
         }
-        $lyric->update($request->only(['music_name','artist_name', 'lyrics','url']));
-        return new LyricsResource($lyric);
+        $lyricsRequest->update($request->only(['music_name','artist_name','url']));
+        return new LyricsRequestResource($lyricsRequest);
 
 
     }
@@ -89,13 +86,13 @@ class LyricsController extends Controller
     //Remove the specified resource from storage.
     //The HTTP 204 No Content success status response code indicates that a request has succeeded,
     //but that the client doesn't need to navigate away from its current page
-    public function destroy(Request $request,Lyrics $lyric)
+    public function destroy(Request $request,LyricsRequest $lyricsRequest)
     {
-        if($request->user()->id != $lyric->user_id){
-            return response()->json(['error' => 'You can only delete your own lyrics.'], 403);
+        if($request->user()->id != $lyricsRequest->user_id){
+            return response()->json(['error' => 'You can only delete your own lyrics Request.'], 403);
         }
-        $lyric ->delete();
+        $lyricsRequest ->delete();
 
-        return response()->json(['msg' => 'lyrics deleted'],200);
+        return response()->json(['msg' => 'lyrics Request deleted'],200);
     }
 }
