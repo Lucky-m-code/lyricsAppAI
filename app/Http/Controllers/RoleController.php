@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class RoleController extends Controller
 {
@@ -20,17 +21,12 @@ class RoleController extends Controller
             'name'=>'required',
         ]);
 
-
         $role_name = Role::create([
-            'name' => $request['music_name'],
-
-
+            'name' => $request['name'],
         ]);
-
 
         $response = [
             'role' => $role_name,
-
         ];
 
         return response()->json(['status_code'=>400,'response'=>$response]);
@@ -53,33 +49,26 @@ class RoleController extends Controller
 
         ]);
 
-
         $response = [
             'role_name' => $role
-
         ];
 
-        if (!$request->user->isAdmin) {
-
+        if (!Auth::user()->isAdmin()) {
             return response()->json(['error' => 'only admins can edit users.','response' => $response], 403);
 
         }
         $role->update($request->only(['name']));
         return new RoleResource($role);
-
     }
 
     public function destroy(Request $request,Role $role)
     {
-        if(!$request->user->isAdmin){
+        if(!Auth::user()->isAdmin()){
             return response()->json(['error' => 'only admins can delete role.'], 403);
         }
         $role ->delete();
 
         return response()->json(['msg' => 'role deleted'],200);
     }
-
-
-
 
 }
