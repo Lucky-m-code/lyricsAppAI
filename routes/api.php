@@ -3,6 +3,7 @@
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LyricsController;
 use App\Http\Controllers\LyricsRequestController;
+use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
@@ -32,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('lyrics',LyricsController::class);
     Route::apiResource('lyricsRequest', LyricsRequestController::class);
     Route::apiResource('favouriteLyrics', LyricsRequestController::class);
+    Route::apiResource('role', RoleController::class);
 
 
 });
