@@ -6,6 +6,8 @@ use App\Http\Resources\LoginResource;
 use App\Http\Resources\LyricsResource;
 use App\Models\Lyrics;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use phpDocumentor\Reflection\Types\Integer;
 
 class LyricsController extends Controller
 {
@@ -13,9 +15,13 @@ class LyricsController extends Controller
 
     public function index()
     {
-        return LyricsResource::collection(Lyrics::all());
+        return Lyrics::paginate(15);
+//        return LyricsResource::collection(Lyrics::all());
     }
 
+    public function userLyrics($id){
+        return LyricsResource::collection(lyrics::with('user')->where("user_id", $id)->get());
+    }
 
     public function store(Request $request)
     {
@@ -97,5 +103,11 @@ class LyricsController extends Controller
         $lyric ->delete();
 
         return response()->json(['msg' => 'lyrics deleted'],200);
+    }
+
+    public function usersLyrics($id){
+        $user = Auth::user();
+        $lyrics = DB::table('lyrics')->where('user_id',$user->id)->get();
+
     }
 }

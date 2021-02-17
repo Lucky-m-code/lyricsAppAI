@@ -18,13 +18,14 @@ class LyricsResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'user_id' => $request->user()->id,
+//            'user_id' => $request->user()->id,
             'music_name' => $this->music_name,
             'artist_name' => $this->artist_name,
             'lyrics' =>$this->lyrics,
             'url' => $this->url,
-            'status' => $this->status
-
+            'status' => $this->status,
+            'created_at' => $this->created_at,
+            'user'=> $this->user
         ];
     }
 }
