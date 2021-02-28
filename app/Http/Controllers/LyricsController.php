@@ -24,13 +24,11 @@ class LyricsController extends Controller
     public function lyricsStatusTrue()
     {
         return Lyrics::select("*")->where("status",true)->get();
-//        $lyrics = DB::table('lyrics')->where('status', true)->get();
     }
 
     public function lyricsStatusFalse()
     {
         return Lyrics::select("*")->where("status",false)->get();
-//        $lyrics = DB::table('lyrics')->where('status', true)->get();
     }
 
 
@@ -107,7 +105,7 @@ class LyricsController extends Controller
     }
 
     //Update the specified resource in storage.
-    public function adminUpdate(Request $request, Lyrics $lyric)
+    public function approve(Request $request, Lyrics $lyric)
     {
         $this->validate($request,[
             'status'=>'required',
@@ -118,7 +116,7 @@ class LyricsController extends Controller
             'lyrics_user_id' => $lyric
         ];
 
-        if (!Auth::user()->isAdmin()) {
+        if (!Auth::user()->isUser()) {
             return response()->json(['error' => 'only admin can update.','response' => $response], 403);
         }
         $lyric->update($request->only(['status']));

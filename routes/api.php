@@ -37,7 +37,12 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('role', RoleController::class);
     Route::get('/userlyrics/{id}', [LyricsController::class, 'userLyrics']);
     Route::get('/userlyricsrequest/{id}', [LyricsRequestController::class, 'userLyricsRequest']);
-    Route::get('/totalstatus', [LyricsController::class, 'totalStatus']);
+    Route::get('/user/lyrics', [LyricsController::class, 'lyricsStatusTrue']);
+
+
+    Route::get('/admin/totalstatus', [LyricsController::class, 'totalStatus'])->middleware('admin');
+    Route::get('/admin/lyrics', [LyricsController::class, 'lyricsStatusFalse'])->middleware('admin');
+    Route::put('/admin/lyrics/{lyrics}', [LyricsController::class, 'approve'])->middleware('admin');
 
 
 });

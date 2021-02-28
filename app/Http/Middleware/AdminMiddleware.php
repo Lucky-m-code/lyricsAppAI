@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminMiddleware
 {
@@ -16,9 +17,9 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        $user = Auth::user();
-        if(!$user->isAdmin()){
-            return redirect('/');
+
+        if(!Auth::user()->isUser()){
+            return 'only for admin';
         }
 
         return $next($request);
