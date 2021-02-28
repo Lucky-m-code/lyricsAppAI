@@ -18,7 +18,7 @@ class AdminMiddleware
     public function handle(Request $request, Closure $next)
     {
 
-        if(!Auth::user()->isUser()){
+        if(!Auth::user()->isAdmin()){
             return 'only for admin';
         }
 

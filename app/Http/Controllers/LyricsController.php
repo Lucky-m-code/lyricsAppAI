@@ -61,13 +61,9 @@ class LyricsController extends Controller
         $response = [
             'lyrics' => $lyrics,
             //'user name' => $request->user()->name
-
         ];
 
         return response()->json(['status_code'=>400,'response'=>$response]);
-
-//        return new LyricsResource($lyrics);
-
     }
 
     //Display the specified resource.
@@ -87,12 +83,9 @@ class LyricsController extends Controller
             'lyrics'=>'required',
 
         ]);
-
-
         $response = [
             'user' => $request->user()->name,
             'lyrics_user_id' => $lyric
-
         ];
 
         if ($request->user()->id !== $lyric->user_id) {
@@ -119,7 +112,7 @@ class LyricsController extends Controller
                 'lyrics_user_id' => $lyrics
             ];
 
-        if (!Auth::user()->isUser()) {
+        if (!Auth::user()->isAdmin()) {
             return response()->json(['error' => 'only admin can update.','response' => $response], 403);
         }
         $lyrics->update($request->only(['status']));
@@ -154,15 +147,22 @@ class LyricsController extends Controller
 
     }
 
+
+
     public function totalStatus(){
         $lyrics = Lyrics::all()->count();
         $lyricsRequest =  LyricsRequest::all()->count();
         $user =  User::all()->count();
+        $totalApprovedLyrics = Lyrics::select("*")->where("status",true)->count();
+        $totalUnApprovedLyrics = Lyrics::select("*")->where("status",false)->count();
 
      return  $totalValue = [
             'totalUser' => $user,
             'totalLyrics' => $lyrics,
             'totalLyricsRequest' => $lyricsRequest,
+            'totalApprovedLyrics' => $totalApprovedLyrics,
+            'totalUnApprovedLyrics' => $totalUnApprovedLyrics
+
         ];
     }
 
