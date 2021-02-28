@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\LyricsRequestResource;
+use App\Http\Resources\LyricsResource;
 use App\Models\Lyrics;
 use App\Models\LyricsRequest;
 use Illuminate\Http\Request;
@@ -11,7 +12,7 @@ class LyricsRequestController extends Controller
 {
     public function index()
     {
-        return LyricsRequestResource::collection(Lyrics::all());
+        return LyricsRequestResource::collection(LyricsRequest::all());
     }
 
 
@@ -51,7 +52,6 @@ class LyricsRequestController extends Controller
     {
         return new LyricsRequestResource($lyricsRequest);
     }
-
 
 
 //    Update the specified resource in storage.
@@ -95,4 +95,13 @@ class LyricsRequestController extends Controller
 
         return response()->json(['msg' => 'lyrics Request deleted'],200);
     }
+
+    public function userRequest($id){
+        return LyricsRequestResource::collection(LyricsRequest::with('user')->where("user_id", $id)->get());
+    }
+
+    public function totalNumberOfLyricsRequest(){
+        return LyricsRequest::all()->count();
+    }
+
 }

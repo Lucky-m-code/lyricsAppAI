@@ -5,7 +5,12 @@ namespace App\Http\Controllers;
 use App\Http\Resources\LoginResource;
 use App\Http\Resources\LyricsResource;
 use App\Models\Lyrics;
+use App\Models\LyricsRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use phpDocumentor\Reflection\Types\Integer;
+use PHPUnit\Util\Exception;
 
 class LyricsController extends Controller
 {
@@ -13,9 +18,24 @@ class LyricsController extends Controller
 
     public function index()
     {
-        return LyricsResource::collection(Lyrics::all());
+        return Lyrics::paginate(15);
+//        return LyricsResource::collection(Lyrics::all());
     }
 
+    public function lyricsStatusTrue()
+    {
+        return Lyrics::select("*")->where("status",true)->get();
+    }
+
+    public function lyricsStatusFalse()
+    {
+        return Lyrics::select("*")->where("status",false)->get();
+    }
+
+
+    public function userLyrics($id){
+        return LyricsResource::collection(lyrics::with('user')->where("user_id", $id)->get());
+    }
 
     public function store(Request $request)
     {
@@ -32,7 +52,7 @@ class LyricsController extends Controller
             'artist_name' => $request['artist_name'],
             'lyrics' => $request['lyrics'],
             'url' => $request['url'],
-            'status' => true,
+            'status' => false,
             'user_id' =>$user,
 
         ]);
@@ -41,13 +61,9 @@ class LyricsController extends Controller
         $response = [
             'lyrics' => $lyrics,
             //'user name' => $request->user()->name
-
         ];
 
         return response()->json(['status_code'=>400,'response'=>$response]);
-
-//        return new LyricsResource($lyrics);
-
     }
 
     //Display the specified resource.
@@ -65,13 +81,11 @@ class LyricsController extends Controller
             'music_name'=>'required',
             'artist_name'=>'required',
             'lyrics'=>'required',
+
         ]);
-
-
         $response = [
             'user' => $request->user()->name,
             'lyrics_user_id' => $lyric
-
         ];
 
         if ($request->user()->id !== $lyric->user_id) {
@@ -82,8 +96,36 @@ class LyricsController extends Controller
         $lyric->update($request->only(['music_name','artist_name', 'lyrics','url']));
         return new LyricsResource($lyric);
 
+    }
+
+    //Update the specified resource in storage.
+    public function approve(Request $request, $id)
+    {
+        try{
+            $this->validate($request,[
+                'status'=>'required',
+            ]);
+            $lyrics = Lyrics::where('id', $id)->first();
+
+            $response = [
+                'user' => $request->user()->name,
+                'lyrics_user_id' => $lyrics
+            ];
+
+        if (!Auth::user()->isAdmin()) {
+            return response()->json(['error' => 'only admin can update.','response' => $response], 403);
+        }
+        $lyrics->update($request->only(['status']));
+
+        return new LyricsResource($lyrics);
+
+        }catch (Exception $e){
+            echo $e;
+        }
 
     }
+
+
 
 
     //Remove the specified resource from storage.
@@ -98,4 +140,31 @@ class LyricsController extends Controller
 
         return response()->json(['msg' => 'lyrics deleted'],200);
     }
+
+    public function usersLyrics($id){
+        $user = Auth::user();
+        $lyrics = DB::table('lyrics')->where('user_id',$user->id)->get();
+
+    }
+
+
+
+    public function totalStatus(){
+        $lyrics = Lyrics::all()->count();
+        $lyricsRequest =  LyricsRequest::all()->count();
+        $user =  User::all()->count();
+        $totalApprovedLyrics = Lyrics::select("*")->where("status",true)->count();
+        $totalUnApprovedLyrics = Lyrics::select("*")->where("status",false)->count();
+
+     return  $totalValue = [
+            'totalUser' => $user,
+            'totalLyrics' => $lyrics,
+            'totalLyricsRequest' => $lyricsRequest,
+            'totalApprovedLyrics' => $totalApprovedLyrics,
+            'totalUnApprovedLyrics' => $totalUnApprovedLyrics
+
+        ];
+    }
+
+
 }

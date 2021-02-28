@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,8 +39,23 @@ class LoginController extends Controller
 
     }
 
+    public function isValid(){
+        $user = Auth::user();
+        $response = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'role' => $user->role->name
+        ];
+
+        return response()->json(['status_code'=>400,'response'=>$response]);
+    }
+
     public function logout(){
         Auth::logout();
+    }
+
+    public function totalNumberOfUser(){
+        return User::all()->count();
     }
 
 }
