@@ -21,6 +21,19 @@ class LyricsController extends Controller
 //        return LyricsResource::collection(Lyrics::all());
     }
 
+    public function lyricsStatusTrue()
+    {
+        return Lyrics::select("*")->where("status",true)->get();
+//        $lyrics = DB::table('lyrics')->where('status', true)->get();
+    }
+
+    public function lyricsStatusFalse()
+    {
+        return Lyrics::select("*")->where("status",false)->get();
+//        $lyrics = DB::table('lyrics')->where('status', true)->get();
+    }
+
+
     public function userLyrics($id){
         return LyricsResource::collection(lyrics::with('user')->where("user_id", $id)->get());
     }
@@ -40,7 +53,7 @@ class LyricsController extends Controller
             'artist_name' => $request['artist_name'],
             'lyrics' => $request['lyrics'],
             'url' => $request['url'],
-            'status' => true,
+            'status' => false,
             'user_id' =>$user,
 
         ]);
@@ -73,6 +86,7 @@ class LyricsController extends Controller
             'music_name'=>'required',
             'artist_name'=>'required',
             'lyrics'=>'required',
+
         ]);
 
 
@@ -90,8 +104,28 @@ class LyricsController extends Controller
         $lyric->update($request->only(['music_name','artist_name', 'lyrics','url']));
         return new LyricsResource($lyric);
 
-
     }
+
+    //Update the specified resource in storage.
+    public function adminUpdate(Request $request, Lyrics $lyric)
+    {
+        $this->validate($request,[
+            'status'=>'required',
+        ]);
+
+        $response = [
+            'user' => $request->user()->name,
+            'lyrics_user_id' => $lyric
+        ];
+
+        if (!Auth::user()->isAdmin()) {
+            return response()->json(['error' => 'only admin can update.','response' => $response], 403);
+        }
+        $lyric->update($request->only(['status']));
+        return new LyricsResource($lyric);
+    }
+
+
 
 
     //Remove the specified resource from storage.

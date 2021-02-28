@@ -54,7 +54,6 @@ class LyricsRequestController extends Controller
     }
 
 
-
 //    Update the specified resource in storage.
 //    updating is not allowed for LyricsRequest
     public function update(Request $request, LyricsRequest $lyricsRequest)
