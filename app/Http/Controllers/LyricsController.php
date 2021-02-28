@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\LoginResource;
 use App\Http\Resources\LyricsResource;
 use App\Models\Lyrics;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use phpDocumentor\Reflection\Types\Integer;
@@ -110,4 +111,10 @@ class LyricsController extends Controller
         $lyrics = DB::table('lyrics')->where('user_id',$user->id)->get();
 
     }
+
+    public function totalNumberOfLyrics(){
+        return Lyrics::all()->count();
+    }
+
+
 }

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\LyricsRequest;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,6 +42,10 @@ class LoginController extends Controller
 
     public function logout(){
         Auth::logout();
+    }
+
+    public function totalNumberOfUser(){
+        return User::all()->count();
     }
 
 }

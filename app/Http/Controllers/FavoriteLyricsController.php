@@ -1,22 +1,22 @@
 <?php
-
-namespace App\Http\Controllers;
-
-use App\Http\Resources\FavoriteLyricsResource;
-use App\Http\Resources\LyricsRequestResource;
-use App\Models\Favourites;
-use App\Models\Lyrics;
-use App\Models\LyricsRequest;
-use Illuminate\Http\Request;
-
-class FavoriteLyricsController extends Controller
-{
+//
+//namespace App\Http\Controllers;
+//
+//use App\Http\Resources\FavoriteLyricsResource;
+//use App\Http\Resources\LyricsRequestResource;
+//use App\Models\Favourites;
+//use App\Models\Lyrics;
+//use App\Models\LyricsRequest;
+//use Illuminate\Http\Request;
+//
+//class FavoriteLyricsController extends Controller
+//{
 //    public function index()
 //    {
 //        return FavoriteLyricsResource::collection(Favourites::all());
 //    }
-
-
+//
+//
 //    public function store(Request $request)
 //    {
 //        $this->validate($request,[
@@ -43,17 +43,17 @@ class FavoriteLyricsController extends Controller
 ////        return new LyricsResource($lyrics);
 //
 //    }
-
+//
 //    //Display the specified resource.
 //    public function show(Favourites $favouriteLyrics)
 //    {
 //        return new FavoriteLyricsController($favouriteLyrics);
 //    }
-
-
-
-//    Update the specified resource in storage.
-//    updating is not allowed for LyricsRequest
+//
+//
+////
+////    Update the specified resource in storage.
+////    updating is not allowed for LyricsRequest
 //    public function update(Request $request, Favourites $favouriteLyrics)
 //    {
 //        $this->validate($request,[
@@ -77,11 +77,11 @@ class FavoriteLyricsController extends Controller
 //
 //
 //    }
-
-
-    //Remove the specified resource from storage.
-    //The HTTP 204 No Content success status response code indicates that a request has succeeded,
-    //but that the client doesn't need to navigate away from its current page
+//
+//
+////    Remove the specified resource from storage.
+////    The HTTP 204 No Content success status response code indicates that a request has succeeded,
+////    but that the client doesn't need to navigate away from its current page
 //    public function destroy(Request $request,LyricsRequest $favouriteLyrics)
 //    {
 //        if($request->user()->id != $favouriteLyrics->user_id){
@@ -91,4 +91,4 @@ class FavoriteLyricsController extends Controller
 //
 //        return response()->json(['msg' => 'lyrics Request deleted'],200);
 //    }
-}
+//}
