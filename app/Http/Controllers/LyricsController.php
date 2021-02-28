@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use phpDocumentor\Reflection\Types\Integer;
+use PHPUnit\Util\Exception;
 
 class LyricsController extends Controller
 {
@@ -105,22 +106,30 @@ class LyricsController extends Controller
     }
 
     //Update the specified resource in storage.
-    public function approve(Request $request, Lyrics $lyric)
+    public function approve(Request $request, $id)
     {
-        $this->validate($request,[
-            'status'=>'required',
-        ]);
+        try{
+            $this->validate($request,[
+                'status'=>'required',
+            ]);
+            $lyrics = Lyrics::where('id', $id)->first();
 
-        $response = [
-            'user' => $request->user()->name,
-            'lyrics_user_id' => $lyric
-        ];
+            $response = [
+                'user' => $request->user()->name,
+                'lyrics_user_id' => $lyrics
+            ];
 
         if (!Auth::user()->isUser()) {
             return response()->json(['error' => 'only admin can update.','response' => $response], 403);
         }
-        $lyric->update($request->only(['status']));
-        return new LyricsResource($lyric);
+        $lyrics->update($request->only(['status']));
+
+        return new LyricsResource($lyrics);
+
+        }catch (Exception $e){
+            echo $e;
+        }
+
     }
 
 
