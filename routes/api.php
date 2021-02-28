@@ -43,6 +43,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/totalstatus', [LyricsController::class, 'totalStatus'])->middleware('admin');
     Route::get('/admin/lyrics', [LyricsController::class, 'lyricsStatusFalse'])->middleware('admin');
     Route::put('/admin/lyrics/{id}', [LyricsController::class, 'approve'])->middleware('admin');
+    Route::get('/admin/isvalid', [LoginController::class, 'isValid']);
 
 
 });

@@ -39,6 +39,17 @@ class LoginController extends Controller
 
     }
 
+    public function isValid(){
+        $user = Auth::user();
+        $response = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'role' => $user->role->name
+        ];
+
+        return response()->json(['status_code'=>400,'response'=>$response]);
+    }
+
     public function logout(){
         Auth::logout();
     }
