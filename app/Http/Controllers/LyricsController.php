@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\LoginResource;
 use App\Http\Resources\LyricsResource;
 use App\Models\Lyrics;
+use App\Models\LyricsRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,8 +113,16 @@ class LyricsController extends Controller
 
     }
 
-    public function totalNumberOfLyrics(){
-        return Lyrics::all()->count();
+    public function totalStatus(){
+        $lyrics = Lyrics::all()->count();
+        $lyricsRequest =  LyricsRequest::all()->count();
+        $user =  User::all()->count();
+
+     return  $totalValue = [
+            'totalUser' => $user,
+            'totalLyrics' => $lyrics,
+            'totalLyricsRequest' => $lyricsRequest,
+        ];
     }
 
 
