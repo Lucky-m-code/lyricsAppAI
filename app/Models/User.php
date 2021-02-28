@@ -53,6 +53,20 @@ class User extends Authenticatable
         return false;
     }
 
+ public function isUser(){
+        if($this->role->name == 'User'){
+            return true;
+        }
+        return false;
+    }
+
+ public function isSuperAdmin(){
+        if($this->role->name == 'superAdm'){
+            return true;
+        }
+        return false;
+    }
+
 
 
     public function lyrics(){
