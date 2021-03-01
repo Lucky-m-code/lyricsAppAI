@@ -45,12 +45,6 @@ class RegisterController extends Controller
         ];
 
         return response()->json(['status_code'=>400,'response'=>$response]);
-
-
-
-
-
-
     }
 
 

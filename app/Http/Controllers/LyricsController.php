@@ -9,7 +9,6 @@ use App\Models\LyricsRequest;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use phpDocumentor\Reflection\Types\Integer;
 use PHPUnit\Util\Exception;
 
 class LyricsController extends Controller
