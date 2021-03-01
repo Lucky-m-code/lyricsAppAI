@@ -60,7 +60,6 @@ class FavoriteLyricsController extends Controller
             'user_id'=>'required',
         ]);
 
-
         $response = [
             'user' => $request->user()->name,
 
@@ -73,8 +72,6 @@ class FavoriteLyricsController extends Controller
         }
         $favouriteLyrics->update($request->only(['music_name','artist_name','url']));
         return new LyricsRequestResource($favouriteLyrics);
-
-
     }
 
 

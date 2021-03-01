@@ -3,8 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\LyricsRequestResource;
-use App\Http\Resources\LyricsResource;
-use App\Models\Lyrics;
 use App\Models\LyricsRequest;
 use Illuminate\Http\Request;
 
@@ -44,7 +42,6 @@ class LyricsRequestController extends Controller
         return response()->json(['status_code'=>400,'response'=>$response]);
 
 //        return new LyricsResource($lyrics);
-
     }
 
     //Display the specified resource.

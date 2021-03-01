@@ -3,6 +3,7 @@
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LyricsController;
 use App\Http\Controllers\LyricsRequestController;
+use App\Http\Controllers\ManageAccountController;
 use App\Http\Controllers\RoleController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/admin/lyrics', [LyricsController::class, 'lyricsStatusFalse'])->middleware('admin');
     Route::put('/admin/lyrics/{id}', [LyricsController::class, 'approve'])->middleware('admin');
     Route::get('/admin/isvalid', [LoginController::class, 'isValid']);
+
+    Route::get('/user/delete/{id}', [ManageAccountController::class, 'destroy']);
+    Route::get('/user/edit/{id}', [ManageAccountController::class, 'update']);
 
 
 });
