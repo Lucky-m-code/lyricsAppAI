@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Http\Resources\LyricsRequestResource;
 use App\Models\LyricsRequest;
 use Illuminate\Http\Request;
+use Laracombee;
+use App\Models\User;
 
 class LyricsRequestController extends Controller
 {
@@ -47,6 +49,11 @@ class LyricsRequestController extends Controller
     //Display the specified resource.
     public function show(LyricsRequest $lyricsRequest)
     {
+        // $user = User::findOrFail($id);
+
+// Prepare the request for recombee server, we need 10 recommended items for a given user.
+        // $recommendations = Laracombee::recommendTo($user, 10)->wait();
+        // return $recommendations;
         return new LyricsRequestResource($lyricsRequest);
     }
 

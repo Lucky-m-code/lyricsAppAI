@@ -33,6 +33,8 @@ Route::get('/public/lyrics', [LyricsController::class, 'index']);
 Route::middleware('auth:sanctum')->group(function () {
 
     Route::apiResource('lyrics',LyricsController::class);
+
+    Route::get('lyricsRecom',[LyricsController::class, 'getRecom']);
     Route::apiResource('lyricsRequest', LyricsRequestController::class);
     Route::apiResource('favouriteLyrics', LyricsRequestController::class);
     Route::apiResource('role', RoleController::class);
