@@ -9,6 +9,7 @@ class Lyrics extends Model
 {
     use HasFactory;
 
+    public static $laracombee = ['lyrics' => 'string'];
     protected $fillable = [
         'music_name',
         'artist_name',
